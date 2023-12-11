@@ -29,11 +29,13 @@ const useFetch = (url) => {
                     console.log(data);
                     setData(data);
                     setIsLoading(false);
+                    setError(null);
 
                     // setTimeout(()=> {setIsLoading(false);},1000)
                 })
                 .catch(err=> {
                     console.log(err.message);
+                    setIsLoading(false);
                     setError(err.message)
                 });
 
