@@ -11,6 +11,8 @@ import { NotFound } from './components/test-pages/NotFound';
 // import { NewBook } from './components/test-pages/NewBook';
 // import { BooksLayout } from './components/shared/BooksLayout';
 import { BooksRoute } from './components/shared/BooksRoute';
+import { Create } from './components/Create';
+import BlogDetails from './components/BlogDetails';
 
 function App() {
 
@@ -30,8 +32,9 @@ function App() {
         <div className="content">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/create" element={<Create/> } />
+            <Route path="/blogs/:id" element={<BlogDetails /> } />
             <Route path="/about" element={<About />} />
-
             <Route path="/books/*" element={<BooksRoute />} />
 
             {/* <Route path="/books" element={<BooksLayout />}>

@@ -9,13 +9,16 @@ const useFetch = (url) => {
 
     useEffect(() => {
 
-        console.log("Use effect fires!");
+        // console.log("Use effect fires!");
         // console.log("the Name : ", name)
         // console.log("blogs : ", blogs);
 
+        // addFix: for aborting Fetch
+        const abortCont = new AbortController(); 
+
         setTimeout(() => {
 
-            fetch(url)
+            fetch(url, {signal: abortCont.signal }) // addFix: to Abort Fetch
                 .then((res) => {
 
                     if(!res.ok) {
@@ -35,13 +38,25 @@ const useFetch = (url) => {
                 })
                 .catch(err=> {
                     console.log(err.message);
-                    setIsLoading(false);
-                    setError(err.message)
+
+                    // addFix : add condition to update state only if not AbortError
+                    if(err.name === 'AbortError') {
+
+                        console.log('fetch Aborted');
+
+                    } else {
+                        setIsLoading(false);
+                        setError(err.message)
+                    }
+
                 });
 
 
-        }
-            , 1000)
+        }, 1000);
+
+        // addFix: fires an abort actio to AbortController
+        return () => abortCont.abort();
+
     }, [url]); 
     // NOTE : add the url as dependency so that it will rewrite whenever a 
     // new URL is supplied
